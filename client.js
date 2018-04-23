@@ -17,6 +17,5 @@ console.log("Sending : ",message);
 xhr.send(message);
 
 function displayCalculatorState(calculatorState) {
-    console.log(calculatorState);
     console.log(calculatorState.display);
 }
