@@ -11,9 +11,10 @@ xhr.onreadystatechange = function () {
     }
 };
 xhr.open("POST", url, true);
-calculatorState = { calculatorState: null, input: 1 };
-xhr.send("HI");
-//xhr.send(calculatorState.toString());
+var calculatorState = { calculatorState: null, input: 1 };
+var message = JSON.stringify(calculatorState);
+console.log("Sending : ",message);
+xhr.send(message);
 
 function displayCalculatorState(calculatorState) {
     console.log(calculatorState);
