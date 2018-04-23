@@ -2,7 +2,7 @@ function isNormalInteger(str) {
     return /^\+?(0|[1-9]\d*)$/.test(str);
 }
 
-function calculateNextState(calculatorState, input, numberArr=[], operatorArr=[], startNextNumber = false, depth = 0){
+function calculateNextState(calculatorState, input, numberArr=[], operatorArr=[], startNextNumber = false, justFinishedSeq = false, depth = 0){
     
     console.log("~IN calculateNextState:", calculatorState, "input:", input, "depth:", depth);
     
@@ -15,9 +15,10 @@ function calculateNextState(calculatorState, input, numberArr=[], operatorArr=[]
             input = Number(input) + numberArr.pop();
             numberArr=[];
             operatorArr=[];
+            justFinishedSeq = true;
         }
 
-        return JSON.stringify({ "prevCalculatorState": calculatorState, "display": input, "numberArr":numberArr, "operatorArr":operatorArr, "startNextNumber":startNextNumber });
+        return JSON.stringify({ "prevCalculatorState": calculatorState, "display": input, "numberArr":numberArr, "operatorArr":operatorArr, "startNextNumber":startNextNumber , "justFinishedSeq":justFinishedSeq });
     }
 
     calculatorState = JSON.parse(calculatorState);
@@ -28,20 +29,34 @@ function calculateNextState(calculatorState, input, numberArr=[], operatorArr=[]
         numberArr = calculatorState.numberArr;
         operatorArr = calculatorState.operatorArr;
         startNextNumber = calculatorState.startNextNumber;
+        justFinishedSeq = calculatorState.justFinishedSeq;
     }
 
     depth = depth + 1;
 
+    if (justFinishedSeq){
+        justFinishedSeq = false;
+        if (isNormalInteger(input)){
+            console.log("Starting new sequence");
+            return calculateNextState(null, input, numberArr, operatorArr, false, justFinishedSeq, depth);
+        }
+        else if (input=="+"||input=="-"||input=="*"){
+            console.log("Continueing previous sequence");
+        } else if (input == "="){
+            console.log("Redisplay");
+        }
+    }
+
     if (startNextNumber){
         console.log("Starting next number checking number comes after operator");
         if (isNormalInteger(input)){
-            return JSON.stringify({ "prevCalculatorState": null, "display": input, "numberArr":numberArr, "operatorArr":operatorArr, "startNextNumber":false });
+            return calculateNextState(null, input, numberArr, operatorArr, false, justFinishedSeq, depth);
         }
         else{
-            throw "Expectin digit after operation";
+            throw "Expecting a digit after operation";
         }
     } else{
-        console.log("Continueing preveous number");
+        console.log("Continueing previous number concatenation");
     }
         
 
@@ -62,10 +77,10 @@ function calculateNextState(calculatorState, input, numberArr=[], operatorArr=[]
     // next call
     if (calculatorState.prevCalculatorState!=null){
         return calculateNextState(JSON.stringify(calculatorState.prevCalculatorState), 
-            calculatorState.display + suffix, numberArr, operatorArr, startNextNumber, depth);
+            calculatorState.display + suffix, numberArr, operatorArr, startNextNumber, justFinishedSeq, depth);
     }
     else{
-        return calculateNextState(null, calculatorState.display + suffix, numberArr, operatorArr, startNextNumber, depth);
+        return calculateNextState(null, calculatorState.display + suffix, numberArr, operatorArr, startNextNumber, justFinishedSeq,depth);
     }
 }
 
@@ -86,12 +101,16 @@ s = calculateNextState(s, "3")
 console.log("\n~OUT s:",s,"\n");
 console.log(JSON.parse(s).display) // 43
 s = calculateNextState(s, "=")
+console.log("\n~OUT s:",s,"\n");
 console.log(JSON.parse(s).display) // 55
-// s = calculateNextState(s, "+")
-// console.log(JSON.parse(s).display) // 55
-// s = calculateNextState(s, "1")
-// console.log(JSON.parse(s).display) // 1
-// s = calculateNextState(s, "=")
-// console.log(JSON.parse(s).display) // 56
-// s = calculateNextState(s, "5")
-// console.log(JSON.parse(s).display) // 5
+s = calculateNextState(s, "+")
+console.log("\n~OUT s:",s,"\n");
+console.log(JSON.parse(s).display) // 55
+s = calculateNextState(s, "1")
+console.log("\n~OUT s:",s,"\n");
+console.log(JSON.parse(s).display) // 1
+s = calculateNextState(s, "=")
+console.log("\n~OUT s:",s,"\n");
+console.log(JSON.parse(s).display) // 56
+s = calculateNextState(s, "5")
+console.log(JSON.parse(s).display) // 5
