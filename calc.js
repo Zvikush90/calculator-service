@@ -13,7 +13,19 @@ module.exports = {
                 startNextNumber = true;
             }
             else if (numberArr.length==1 && operatorArr.length==2){
-                input = Number(input) + numberArr.pop();
+                // poping =
+                operatorArr.pop();
+                
+                operator = operatorArr.pop();
+
+                if (operator=="+"){
+                    input = numberArr.pop() + Number(input);
+                }else if (operator=="-"){
+                    input = numberArr.pop() - Number(input);
+                }else if (operator=="*"){
+                    input = numberArr.pop() * Number(input);
+                }
+                
                 numberArr=[];
                 operatorArr=[];
                 justFinishedSeq = true;
