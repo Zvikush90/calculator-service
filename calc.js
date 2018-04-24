@@ -19,7 +19,7 @@ module.exports = {
                 justFinishedSeq = true;
             }
 
-            return JSON.stringify({ "prevCalculatorState": calculatorState, "display": input, "numberArr":numberArr, "operatorArr":operatorArr, "startNextNumber":startNextNumber , "justFinishedSeq":justFinishedSeq });
+            return JSON.stringify({ "prevCalculatorState": calculatorState, "display": Number(input), "numberArr":numberArr, "operatorArr":operatorArr, "startNextNumber":startNextNumber , "justFinishedSeq":justFinishedSeq });
         }
 
         calculatorState = JSON.parse(calculatorState);
