@@ -1,3 +1,5 @@
+// https://semaphoreci.com/community/tutorials/getting-started-with-node-js-and-mocha
+
 var expect = require("chai").expect;
 var assert = require('assert');
 
