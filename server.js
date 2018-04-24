@@ -11,9 +11,6 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 var assert = require('assert');
 
-
-
-
 // POST /calculate
 app.post('/calculate', function (req, res) {
     console.log(req)
