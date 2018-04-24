@@ -109,6 +109,26 @@ describe('Calculator Module', function() {
       expect(JSON.parse(s).display).to.equal(43);
     });
   });
+
+  
+  describe('Single sequence of * operator followed by =', function() {
+    it('should perform * operator between two digits', function() {
+      let s = null
+      s = calc.calculateNextState(s, "1") // 1
+      expect(JSON.parse(s).display).to.equal(1);
+      s = calc.calculateNextState(s, "2") // 12
+      expect(JSON.parse(s).display).to.equal(12);
+      s = calc.calculateNextState(s, "*") // 12
+      expect(JSON.parse(s).display).to.equal(12);
+      s = calc.calculateNextState(s, "3") // 3
+      expect(JSON.parse(s).display).to.equal(3);
+      s = calc.calculateNextState(s, "5") // 35
+      expect(JSON.parse(s).display).to.equal(35);
+      s = calc.calculateNextState(s, "=") // 420
+      expect(JSON.parse(s).display).to.equal(420);
+    });
+  });
+  
   
 });
 
