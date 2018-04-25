@@ -233,6 +233,54 @@ describe('Calculator Module', function() {
     });
   });
 
+  describe('Double sequence of + operator followed by operator - followed by = ', function() {
+    it('should perform + operator evaluate implicitly then - then evaluate', function() {
+      let s = null
+      s = calc.calculateNextState(s, "1") // 1
+      expect(JSON.parse(s).display).to.equal(1);
+      s = calc.calculateNextState(s, "2") // 12
+      expect(JSON.parse(s).display).to.equal(12);
+      s = calc.calculateNextState(s, "+") // 12
+      expect(JSON.parse(s).display).to.equal(12);
+      s = calc.calculateNextState(s, "4") // 4
+      expect(JSON.parse(s).display).to.equal(4);
+      s = calc.calculateNextState(s, "3") // 43
+      expect(JSON.parse(s).display).to.equal(43);
+      s = calc.calculateNextState(s, "-") // 55
+      expect(JSON.parse(s).display).to.equal(55);
+      s = calc.calculateNextState(s, "1") // 1
+      expect(JSON.parse(s).display).to.equal(1);
+      s = calc.calculateNextState(s, "0") // 10
+      expect(JSON.parse(s).display).to.equal(10);
+      s = calc.calculateNextState(s, "=") // 45
+      expect(JSON.parse(s).display).to.equal(45);
+    });
+  });
+
+  describe('Double sequence of + operator followed by operator - followed by = ', function() {
+    it('should perform + operator evaluate implicitly then - then evaluate', function() {
+      let s = null
+      s = calc.calculateNextState(s, "1") // 1
+      expect(JSON.parse(s).display).to.equal(1);
+      s = calc.calculateNextState(s, "2") // 12
+      expect(JSON.parse(s).display).to.equal(12);
+      s = calc.calculateNextState(s, "+") // 12
+      expect(JSON.parse(s).display).to.equal(12);
+      s = calc.calculateNextState(s, "4") // 4
+      expect(JSON.parse(s).display).to.equal(4);
+      s = calc.calculateNextState(s, "3") // 43
+      expect(JSON.parse(s).display).to.equal(43);
+      s = calc.calculateNextState(s, "*") // 55
+      expect(JSON.parse(s).display).to.equal(55);
+      s = calc.calculateNextState(s, "1") // 1
+      expect(JSON.parse(s).display).to.equal(1);
+      s = calc.calculateNextState(s, "0") // 10
+      expect(JSON.parse(s).display).to.equal(10);
+      s = calc.calculateNextState(s, "=") // 550
+      expect(JSON.parse(s).display).to.equal(550);
+    });
+  });
+
 });
 
 // let s = null
