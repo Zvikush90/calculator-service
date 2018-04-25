@@ -14,9 +14,15 @@ module.exports = {
             }
             else if (numberArr.length==1 && operatorArr.length==2){
                 // poping =
-                operatorArr.pop();
-                
-                operator = operatorArr.pop();
+                operator1 = operatorArr.pop();
+                operator = "";
+                if (operator1=="="){
+                    operator = operatorArr.pop();
+                }else{
+                    operator = operatorArr.pop();
+                    // repush operator2
+                    operatorArr.push(operator1);
+                }
 
                 if (operator=="+"){
                     input = numberArr.pop() + Number(input);
@@ -25,17 +31,21 @@ module.exports = {
                 }else if (operator=="*"){
                     input = numberArr.pop() * Number(input);
                 }
-                
-                numberArr=[];
-                operatorArr=[];
-                justFinishedSeq = true;
-            }
 
-            return JSON.stringify({ "prevCalculatorState": calculatorState, "display": Number(input), "numberArr":numberArr, "operatorArr":operatorArr, "startNextNumber":startNextNumber , "justFinishedSeq":justFinishedSeq });
+                if (operatorArr.length==1){
+                    numberArr.push(input)
+                }
+
+                justFinishedSeq = true;                
+                
+            }
+            var rv = JSON.stringify({ "prevCalculatorState": calculatorState, "display": Number(input), "numberArr":numberArr, "operatorArr":operatorArr, "startNextNumber":startNextNumber , "justFinishedSeq":justFinishedSeq });
+            console.log("~OUT rv:",rv);
+            return rv;
         }
 
         calculatorState = JSON.parse(calculatorState);
-        console.log("~PARSED calculatorState:",calculatorState);
+        console.log("Parsed calculatorState:",calculatorState);
         var suffix = input;
             
         if (depth==0){
@@ -69,22 +79,37 @@ module.exports = {
                 throw "Expecting a digit after operation";
             }
         } else{
-            console.log("Continueing previous number concatenation");
+            console.log("Continuing previous number");
         }
             
 
         if (input=="="){
-            if (numberArr.length==1 && operatorArr.length==1){
-                operatorArr.push(input);
-                suffix="";
-            }
-            else{
-                throw "Invalid operation sequence";
-            }
+            operatorArr.push(input);
+            suffix="";            
         }
         else if (input=="+"||input=="-"||input=="*"){
             operatorArr.push(input);
-            suffix="";
+
+            // two operations in a row without evaluation =
+            if (numberArr.length==1 && operatorArr.length==1){
+                // implicit evaluation
+                console.log("Performing implicit operation");
+                operator = operatorArr.pop();
+                numberToPush = 0
+                if (operator=="+"){
+                    numberToPush = numberArr.pop() + Number(calculatorState.display);
+                }else if (operator=="-"){
+                    numberToPush = numberArr.pop() - Number(calculatorState.display);
+                }else if (operator=="*"){
+                    numberToPush = numberArr.pop() * Number(calculatorState.displayut);
+                }
+                calculatorState.display = "";
+                numberArr.push(numberToPush);
+            }else{
+                
+                suffix="";
+            }
+            
         }
 
         // next call
