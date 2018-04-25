@@ -13,9 +13,7 @@ var assert = require('assert');
 
 // POST /calculate
 app.post('/calculate', function (req, res) {
-    console.log(req)
-    console.log("~IN /calculate body:", req.body);
-    
+    console.log("~IN /calculate");
     var calculatorState = req.body.calculatorState;
     var input = req.body.input;
 
