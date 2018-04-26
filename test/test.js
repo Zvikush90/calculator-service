@@ -1,11 +1,15 @@
 // https://semaphoreci.com/community/tutorials/getting-started-with-node-js-and-mocha
-var app = require('../server');
+// var app = require('../server');
 var chai = require('chai');
-var chaiHttp = require('chai-http') ;
+var chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 var expect = chai.expect;
 var assert = chai.assert;
-var request = require('supertest');
+var rp = require('request-promise');
+
+var port = process.env.PORT || 3000;
+var url = "http://localhost:"+port+"/calculate";
+
 
 // ******************************************************************************************************
 //                                            UNIT TESTS
@@ -323,40 +327,67 @@ describe('Calculator Module', function() {
 
 // #region integration-tests
 
-var server = 'http://localhost:3000';
 
-// https://scotch.io/@LazyDog/integration-tests-of-rest-services-using-nodejs-mocha-and-chai
-// https://www.codementor.io/olatundegaruba/integration-testing-supertest-mocha-chai-6zbh6sefz
+function testAsync(done, fn) {
+  try {
+      fn();
+      done();
+  } catch(err) {
+      done(err);
+  }
+}
 
 describe('Test REST api', function() {
-  after(function() {
-    app.server.close();
-  });
+  // after(function() {
+  //   app.server.close();
+  // });
   
-  describe('POST /calculate Concat',function() {
-    it('should get 1', function(done){
-  
-      request(app.app)
-       .post('/calculate')
-       .send({ "calculatorState": null, "input": 1 })
-       .set('Content-Type', 'application/json')
-       .set('Accept', 'application/json')
-       .expect(200)
-       .end((err, res) => {
-        if (err) throw err;  
-        console.log(JSON.stringify(res.body));
-        try {
-            assert.equal(1, res.body.display);    
-          } catch(err) {
-            done(err);
-          }
-                   
-        });
-                    
-    })
+  var options = {
+    uri: url,
+    method: 'POST',
+    json: ""
+  };
+  var rv = null;
+
+  describe('POST /calculate digit and get digit', function() {
+    it('should post to server and server should the same number', function(done) {
+      console.log("Calling request promise");
+      options.json = { "calculatorState": null, "input": "1" };
+      rp(options)
+        .then((body) => {
+          rv = body.display;
+          testAsync(done, function(){
+            expect(rv).to.equal(1);
+          });
+          console.log("Request promise success:",rv);
+          options.json = { "calculatorState": JSON.stringify(body), "input": "2" };
+        })
+        .catch(function(err){
+          console.log("Request promise failed:",err);
+          rv = null;
+          throw err;
+        });      
+    });
+
+    describe('POST /calculate second digit and get concat digit', function() {
+      it('should post to server and server should concat second number', function(done) {
+        console.log("Calling request promise");
+        rp(options)
+          .then((body) => {
+            rv = body.display;
+            testAsync(done, function(){
+              expect(rv).to.equal(12);
+            });
+            console.log("Request promise success:",rv);            
+          })
+          .catch(function(err){
+            console.log("Request promise failed:",err);
+            rv = null;
+            throw err;
+          });      
+      });
+    });
   });
 });
 
 // #endregion
-
-
