@@ -1,6 +1,8 @@
 # Calculator Service
 Exercise for Web Development Course: 
 
+https://drive.google.com/drive/folders/1vnt1nCPLgrf5qUdaktkBcvmspfk2qYNM
+
 https://docs.google.com/document/d/1R4T4fGA5pt1w6ElWLhKVhKrreuQ4m5-lSrwepodqf_w/edit#
 
 # Prerequisites
