@@ -1,5 +1,7 @@
 # Calculator Service
-Exercise for Web Development Course - https://docs.google.com/document/d/1R4T4fGA5pt1w6ElWLhKVhKrreuQ4m5-lSrwepodqf_w/edit#
+Exercise for Web Development Course: 
+
+https://docs.google.com/document/d/1R4T4fGA5pt1w6ElWLhKVhKrreuQ4m5-lSrwepodqf_w/edit#
 
 # Prerequisites
 1. nodejs
@@ -27,9 +29,9 @@ node client.js
 ## Docker
 
 ### Build Calculator Container
-docker build -t zvikush90:calculator-service .
-docker run -p 3000:3000 zvikush90:calculator-service
-docker ps
+1. docker build -t zvikush90:calculator-service .
+2. docker run -p 3000:3000 zvikush90:calculator-service
+3. docker ps
 
 ### Compose 
 
