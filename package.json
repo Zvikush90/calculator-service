@@ -2,7 +2,7 @@
   "name": "calculator-service",
   "version": "1.0.0",
   "description": "calculator service",
-  "main": "main.js",
+  "main": "server.js",
   "scripts": {
     "test": "mocha"
   },
@@ -10,12 +10,17 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.2",
-    "chai": "^4.1.2",
     "express": "^4.16.3",
     "npm": "^6.0.0",
     "request": "^2.85.0"
   },
   "devDependencies": {
-    "mocha": "^5.1.1"
+    "chai": "^4.1.2",
+    "chai-http": "^4.0.0",
+    "finalhandler": "^1.1.1",
+    "http": "0.0.0",
+    "mocha": "^5.1.1",
+    "serve-static": "^1.13.2",
+    "supertest": "^3.0.0"
   }
 }
