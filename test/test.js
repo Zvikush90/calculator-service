@@ -11,6 +11,8 @@ var request = require('supertest');
 //                                            UNIT TESTS
 // ******************************************************************************************************
 
+// #region unit-tests
+
 var calc = require('../calc');
 
 describe('Calculator Module', function() {
@@ -313,10 +315,13 @@ describe('Calculator Module', function() {
 // s = calculateNextState(s, "5")
 // console.log(JSON.parse(s).display) // 5
 
+// #endregion
 
 // ******************************************************************************************************
 //                                            INTEGRATION TESTS
 // ******************************************************************************************************
+
+// #region integration-tests
 
 var server = 'http://localhost:3000';
 
@@ -333,21 +338,30 @@ function testAsync(done, fn) {
 
 
 describe('Test REST api', function() {
+  after(function() {
+    app.server.close();
+  });
   
-  it('should get 1', (done) => {
-    describe('Number Concat', function() {
-      request(app)
-            .post('/calculate')
-            .send({ "calculatorState": null, "input": 1 })
-            .end((err, res) => {
-              try {
-                expect(res).to.have.status(200);      
-                assert.equal(1, res.body.display);
-                done();
-              } catch(err) {
-                  done(err);
-              }                
-            });
-    });
+  describe('POST /calculate Concat',function() {
+    it('should get 1', function(done){
+  
+      request(app.app)
+       .post('/calculate')
+       .send({ "calculatorState": null, "input": 1 })
+       .end((err, res) => {
+          try {
+            expect(res).to.have.status(200);      
+            assert.equal(1, res.body.display);    
+          } catch(err) {
+            done(err);
+          }
+                   
+        });
+                    
+    })
   });
 });
+
+// #endregion
+
+

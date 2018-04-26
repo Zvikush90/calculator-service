@@ -21,8 +21,9 @@ app.post('/calculate', function (req, res) {
 });
 
 // Listen to port
-app.listen(port, function () {
+var server = app.listen(port, function () {
     console.log('listening on port',port);
 });
 
-module.exports = app;
+module.exports.app = app;
+module.exports.server = server;
