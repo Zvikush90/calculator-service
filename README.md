@@ -19,5 +19,6 @@ node server.js
 ## Client (Example)
 node client.js
 
-## Tests
-npm test
+## Tests (Unit and Integration)
+1. node server.js
+2. npm test
