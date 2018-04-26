@@ -1,6 +1,7 @@
 version: '3'
+# https://www.youtube.com/watch?v=Qw9zlE3t8Ko
 services:
-  
+ 
   redis:
     image: "redis:alpine"
     ports:

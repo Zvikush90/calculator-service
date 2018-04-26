@@ -1,5 +1,7 @@
 // https://semaphoreci.com/community/tutorials/getting-started-with-node-js-and-mocha
-// var app = require('../server');
+// https://www.codementor.io/olatundegaruba/integration-testing-supertest-mocha-chai-6zbh6sefz
+// https://scotch.io/@LazyDog/integration-tests-of-rest-services-using-nodejs-mocha-and-chai
+
 var chai = require('chai');
 var chaiHttp = require('chai-http');
 chai.use(chaiHttp);
