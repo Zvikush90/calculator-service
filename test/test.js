@@ -326,16 +326,7 @@ describe('Calculator Module', function() {
 var server = 'http://localhost:3000';
 
 // https://scotch.io/@LazyDog/integration-tests-of-rest-services-using-nodejs-mocha-and-chai
-
-function testAsync(done, fn) {
-  try {
-      fn();
-      done();
-  } catch(err) {
-      done(err);
-  }
-}
-
+// https://www.codementor.io/olatundegaruba/integration-testing-supertest-mocha-chai-6zbh6sefz
 
 describe('Test REST api', function() {
   after(function() {
@@ -348,9 +339,13 @@ describe('Test REST api', function() {
       request(app.app)
        .post('/calculate')
        .send({ "calculatorState": null, "input": 1 })
+       .set('Content-Type', 'application/json')
+       .set('Accept', 'application/json')
+       .expect(200)
        .end((err, res) => {
-          try {
-            expect(res).to.have.status(200);      
+        if (err) throw err;  
+        console.log(JSON.stringify(res.body));
+        try {
             assert.equal(1, res.body.display);    
           } catch(err) {
             done(err);
