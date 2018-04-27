@@ -5,32 +5,32 @@ services:
   redis:
     image: "redis:alpine"
     ports:
-     - "5000:5000"
+      - "5000:5000"
 
   user-service:
-    image: "webdevtoolsandtech:user-service"
+    image: "webdevtoolsandtech/user-service"
     environment:
-     - REDIS_ADDRESS=  -----redis address----:5000
+      - REDIS_ADDRESS=0.0.0.0:5000
     ports:
-     - "5001:5001"
+      - "5001:5001"
 
   
   currency-calculator:
     build: .
     ports:
     ports:
-     - "3000:3000"
+      - "3000:3000"
 
   currency-frontend:
     image: "webdevtoolsandtech/currency-frontend"
     ports:
-     - "5002:5002"
+      - "5002:5002"
 
   currency-backend:
-    image: ""webdevtoolsandtech/currency-backend"
+    image: "webdevtoolsandtech/currency-backend"
     environment:
-     - REDIS_ADDRESS=  -----redis address----:5000
-     - SESSION_SECRET=hDCzAUuL9WzBPEbyxBR
-     - USER_SERVICE_ADDRESS= -----user-service address----:5001
-     - FRONTEND_ADDRESS= -----currency-service address----:5002
-     - CALCULATOR_ADDRESS= -----currency-calculator address----:3000
+      - REDIS_ADDRESS=0.0.0.0:5000
+      - SESSION_SECRET=hDCzAUuL9WzBPEbyxBR
+      - USER_SERVICE_ADDRESS=0.0.0.0:5001
+      - FRONTEND_ADDRESS=0.0.0.0:5002
+      - CALCULATOR_ADDRESS=0.0.0.0:3000
