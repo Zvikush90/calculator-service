@@ -30,6 +30,8 @@ module.exports = {
                     input = numberArr.pop() - Number(input);
                 }else if (operator=="*"){
                     input = numberArr.pop() * Number(input);
+                } else if (operator == "/"){
+                    input = numberArr.pop() / Number(input);
                 }
 
                 if (operatorArr.length==1){
@@ -66,7 +68,7 @@ module.exports = {
                 console.log("Starting new sequence");
                 return calculateNextState(null, input, numberArr, operatorArr, false, justFinishedSeq, depth);
             }
-            else if (input=="+"||input=="-"||input=="*"){
+            else if (input == "+" || input == "-" || input == "*" || input == "/"){
                 console.log("Continueing previous sequence");
             } else if (input == "="){
                 console.log("Redisplay");
@@ -90,7 +92,7 @@ module.exports = {
             operatorArr.push(input);
             suffix="";            
         }
-        else if (input=="+"||input=="-"||input=="*"){
+        else if (input == "+" || input == "-" || input == "*" || input == "/"){
             operatorArr.push(input);
 
             // two operations in a row without evaluation =
@@ -101,10 +103,12 @@ module.exports = {
                 numberToPush = 0
                 if (operator=="+"){
                     numberToPush = numberArr.pop() + Number(calculatorState.display);
-                }else if (operator=="-"){
+                } else if (operator=="-"){
                     numberToPush = numberArr.pop() - Number(calculatorState.display);
-                }else if (operator=="*"){
+                } else if (operator=="*"){
                     numberToPush = numberArr.pop() * Number(calculatorState.displayut);
+                } else if (operator == "/") {
+                    numberToPush = numberArr.pop() / Number(calculatorState.displayut);
                 }
                 calculatorState.display = "";
                 numberArr.push(numberToPush);
