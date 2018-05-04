@@ -44,7 +44,10 @@ module.exports = {
             return rv;
         }
 
-        calculatorState = JSON.parse(calculatorState);
+        if (typeof calculatorState === 'string'){
+            calculatorState = JSON.parse(calculatorState);
+        }
+        
         console.log("Parsed calculatorState:",calculatorState);
         var suffix = input;
             

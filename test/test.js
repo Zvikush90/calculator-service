@@ -362,7 +362,7 @@ describe('Test REST api', function() {
             expect(rv).to.equal(1);
           });
           console.log("Request promise success:",rv);
-          options.json = { "calculatorState": JSON.stringify(body), "input": "2" };
+          
         })
         .catch(function(err){
           console.log("Request promise failed:",err);
@@ -374,6 +374,19 @@ describe('Test REST api', function() {
     describe('POST /calculate second digit and get concat digit', function() {
       it('should post to server and server should concat second number', function(done) {
         console.log("Calling request promise");
+        options.json = 
+          {
+            "calculatorState":
+              {
+                "display": 1,
+                "numberArr": [],
+                "operatorArr": [],
+                "startNextNumber": false,
+                "justFinishedSeq": false
+              },
+            "input": '2',
+            "rates": {}
+          };
         rp(options)
           .then((body) => {
             rv = body.display;
@@ -389,6 +402,42 @@ describe('Test REST api', function() {
           });      
       });
     });
+
+    describe('POST /calculate digit and then operator display digit', function () {
+      it('should post to server and server should save operator and display previous', function (done) {
+        console.log("Calling request promise");
+        options.json = 
+          {
+            "calculatorState":
+              {
+                "display": 7,
+                "numberArr": [],
+                "operatorArr": [],
+                "startNextNumber": false,
+                "justFinishedSeq": false
+              },
+            "input": '+',
+            "rates": {}
+          };
+
+        rp(options)
+          .then((body) => {
+            rv = body.display;
+            testAsync(done, function () {
+              expect(rv).to.equal(7);
+            });
+            console.log("Request promise success:", rv);
+          })
+          .catch(function (err) {
+            console.log("Request promise failed:", err);
+            rv = null;
+            throw err;
+          });
+      });
+    });
+
+    ;
+  
   });
 });
 
