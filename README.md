@@ -38,4 +38,5 @@ node client.js
 ### Compose 
 
 docker-compose build
+
 docker-compose up
