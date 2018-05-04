@@ -92,6 +92,24 @@ describe('Calculator Module', function() {
     });
   });
 
+  describe('/ Operator after Concat', function () {
+    it('should accept / after number and continue to display 12345', function () {
+      let s = null
+      s = calc.calculateNextState(s, "1") // 1
+      expect(JSON.parse(s).display).to.equal(1);
+      s = calc.calculateNextState(s, "2") // 12
+      expect(JSON.parse(s).display).to.equal(12);
+      s = calc.calculateNextState(s, "3") // 123
+      expect(JSON.parse(s).display).to.equal(123);
+      s = calc.calculateNextState(s, "4") // 1234
+      expect(JSON.parse(s).display).to.equal(1234);
+      s = calc.calculateNextState(s, "5") // 12345
+      expect(JSON.parse(s).display).to.equal(12345);
+      s = calc.calculateNextState(s, "/") // 12345
+      expect(JSON.parse(s).display).to.equal(12345);
+    });
+  });
+
   describe('Single sequence of + operator followed by =', function() {
     it('should perform + operator between two digits', function() {
       let s = null
@@ -144,6 +162,24 @@ describe('Calculator Module', function() {
       expect(JSON.parse(s).display).to.equal(35);
       s = calc.calculateNextState(s, "=") // 420
       expect(JSON.parse(s).display).to.equal(420);
+    });
+  });
+
+  describe('Single sequence of / operator followed by =', function () {
+    it('should perform / operator between two digits', function () {
+      let s = null
+      s = calc.calculateNextState(s, "3") // 3
+      expect(JSON.parse(s).display).to.equal(3);
+      s = calc.calculateNextState(s, "0") // 30
+      expect(JSON.parse(s).display).to.equal(30);
+      s = calc.calculateNextState(s, "/") // 30
+      expect(JSON.parse(s).display).to.equal(30);
+      s = calc.calculateNextState(s, "1") // 1
+      expect(JSON.parse(s).display).to.equal(1);
+      s = calc.calculateNextState(s, "0") // 10
+      expect(JSON.parse(s).display).to.equal(10);
+      s = calc.calculateNextState(s, "=") // 3
+      expect(JSON.parse(s).display).to.equal(3);
     });
   });
   
@@ -225,6 +261,32 @@ describe('Calculator Module', function() {
     });
   });
 
+  describe('Double sequence of + operator followed by = followed by / operator followed by =', function () {
+    it('should perform + operator evaluate then / then evaluate', function () {
+      let s = null
+      s = calc.calculateNextState(s, "1") // 1
+      expect(JSON.parse(s).display).to.equal(1);
+      s = calc.calculateNextState(s, "2") // 12
+      expect(JSON.parse(s).display).to.equal(12);
+      s = calc.calculateNextState(s, "+") // 12
+      expect(JSON.parse(s).display).to.equal(12);
+      s = calc.calculateNextState(s, "4") // 4
+      expect(JSON.parse(s).display).to.equal(4);
+      s = calc.calculateNextState(s, "3") // 43
+      expect(JSON.parse(s).display).to.equal(43);
+      s = calc.calculateNextState(s, "=") // 55
+      expect(JSON.parse(s).display).to.equal(55);
+      s = calc.calculateNextState(s, "/") // 55
+      expect(JSON.parse(s).display).to.equal(55);
+      s = calc.calculateNextState(s, "1") // 1
+      expect(JSON.parse(s).display).to.equal(1);
+      s = calc.calculateNextState(s, "1") // 11
+      expect(JSON.parse(s).display).to.equal(11);
+      s = calc.calculateNextState(s, "=") // 5
+      expect(JSON.parse(s).display).to.equal(5);
+    });
+  });
+
   describe('Double sequence of + operator followed by operator + followed by = ', function() {
     it('should perform + operator evaluate implicitly then + then evaluate', function() {
       let s = null
@@ -273,8 +335,8 @@ describe('Calculator Module', function() {
     });
   });
 
-  describe('Double sequence of + operator followed by operator - followed by = ', function() {
-    it('should perform + operator evaluate implicitly then - then evaluate', function() {
+  describe('Double sequence of + operator followed by operator * followed by = ', function() {
+    it('should perform + operator evaluate implicitly then * then evaluate', function() {
       let s = null
       s = calc.calculateNextState(s, "1") // 1
       expect(JSON.parse(s).display).to.equal(1);
@@ -294,6 +356,30 @@ describe('Calculator Module', function() {
       expect(JSON.parse(s).display).to.equal(10);
       s = calc.calculateNextState(s, "=") // 550
       expect(JSON.parse(s).display).to.equal(550);
+    });
+  });
+
+  describe('Double sequence of + operator followed by operator / followed by = ', function () {
+    it('should perform + operator evaluate implicitly then / then evaluate', function () {
+      let s = null
+      s = calc.calculateNextState(s, "1") // 1
+      expect(JSON.parse(s).display).to.equal(1);
+      s = calc.calculateNextState(s, "2") // 12
+      expect(JSON.parse(s).display).to.equal(12);
+      s = calc.calculateNextState(s, "+") // 12
+      expect(JSON.parse(s).display).to.equal(12);
+      s = calc.calculateNextState(s, "4") // 4
+      expect(JSON.parse(s).display).to.equal(4);
+      s = calc.calculateNextState(s, "3") // 43
+      expect(JSON.parse(s).display).to.equal(43);
+      s = calc.calculateNextState(s, "/") // 55
+      expect(JSON.parse(s).display).to.equal(55);
+      s = calc.calculateNextState(s, "1") // 1
+      expect(JSON.parse(s).display).to.equal(1);
+      s = calc.calculateNextState(s, "1") // 11
+      expect(JSON.parse(s).display).to.equal(11);
+      s = calc.calculateNextState(s, "=") // 550
+      expect(JSON.parse(s).display).to.equal(5);
     });
   });
 
